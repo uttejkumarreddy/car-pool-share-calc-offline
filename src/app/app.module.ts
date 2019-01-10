@@ -13,6 +13,7 @@ import { TripPage } from '../pages/trip/trip';
 
 import { IonicStorageModule } from '@ionic/storage';
 import { SQLite } from '@ionic-native/sqlite';
+import { DatabaseProvider } from '../providers/database/database';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { SQLite } from '@ionic-native/sqlite';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
+    DatabaseProvider,
   ]
 })
 export class AppModule {}
