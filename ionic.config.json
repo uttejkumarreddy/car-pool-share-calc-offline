@@ -1,5 +1,7 @@
 {
   "name": "car-pooling",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }
