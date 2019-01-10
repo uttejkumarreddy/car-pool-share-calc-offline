@@ -15,4 +15,26 @@
 
 <ion-content padding>
 
+  <div>
+    <h3 style="display: inline">Transport</h3>
+    <button ion-button clear style="float: right; margin-top: 0;" icon-only (click)="refreshTransport()">
+      <ion-icon name="refresh"></ion-icon>
+    </button>
+    <button ion-button clear style="float: right; margin-top: 0;" icon-only (click)="addTransport()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </div>
+  <div *ngIf="myTransports.length == 0">
+    <h6 text-center style="float: center; margin-top: 5px">No transportation added!</h6>
+  </div>
+  <div *ngIf="myTransports.length > 0">
+    <ion-list>
+      <ion-item *ngFor="let transport of myTransports" (click)="editTransport(transport)">
+        {{transport.transportid}}: {{transport.transportname}} Cost/Km: {{transport.costperkm}}
+      </ion-item>
+    </ion-list>
+  </div>
+
+  
+
 </ion-content>

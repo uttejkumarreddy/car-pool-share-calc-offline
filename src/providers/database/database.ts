@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ToastController } from 'ionic-angular';
+import { transport } from '../../interfaces/transport.interface';
 
 /*
   Generated class for the DatabaseProvider provider.
@@ -13,6 +14,8 @@ export class DatabaseProvider {
 
   successes: string[] = [];
   errors: string[] = [];
+
+  public transport: transport[] = [];
 
   constructor(private sqlite: SQLite, private toastCtrl: ToastController) {
     
@@ -76,16 +79,84 @@ export class DatabaseProvider {
   }
 
   /* Transport Operations */
-  createTransport(name: string, costperkm: number) {
+  getTransport() {
+    this.sqlite.create({
+      name: 'carpool.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+        db.executeSql('SELECT * from transport', [])
+          .then((data) => {
+            this.transport = [];
+            for(let i = 0; i < data.rows.length; i++)
+              this.transport.push(data.rows.item(i));
+          })
+          .catch(err => {
+            this.errors.push('getTransport ' + JSON.stringify(err));
+          })
+      })
+      .catch((err) => {
+        this.errors.push('getTransport: ' + JSON.stringify(err));
+      })
+  }
 
+  createTransport(name: string, costperkm: number) {
+    let newTransport = [name, costperkm];
+    this.sqlite.create({
+      name: 'carpool.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+        db.executeSql('INSERT INTO transport (transportname, costperkm) VALUES (?, ?)', newTransport)
+          .then((data) => {
+            this.successes.push('createTransport: ' + JSON.stringify(data));
+          })
+          .catch(err => {
+            this.errors.push('createTransport: ' + JSON.stringify(err));
+          })
+      })
+      .catch(err => {
+        this.errors.push('createTransport: ' + JSON.stringify(err));
+      })
   }
 
   editTransport(id: number, name: string, costperkm: number) {
-
+    let updatedTransport = [name, costperkm, id];
+    this.sqlite.create({
+      name: 'carpool.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+        db.executeSql('UPDATE transport set transportname = ?, costperkm = ? where transportid = ?', updatedTransport)
+          .then((data) => {
+            this.successes.push('editTransport: ' + JSON.stringify(data));
+          })
+          .catch(err => {
+            this.errors.push('editTransport: ' + JSON.stringify(err));
+          })
+      })
+      .catch(err => {
+        this.errors.push('editTransport: ' + JSON.stringify(err));
+      })
   }
 
   deleteTransport(id: number) {
-
+    this.sqlite.create({
+      name: 'carpool.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+        db.executeSql('DELETE from transport where transportid = ?', [id])
+          .then((data) => {
+            this.successes.push('deleteTransport: ' + JSON.stringify(data));
+          })
+          .catch(err => {
+            this.errors.push('deleteTransport: ' + JSON.stringify(err));
+          })
+      })
+      .catch(err => {
+        this.errors.push('deleteTransport: ' + JSON.stringify(err));
+      })
   }
 
   /* Trips operations */

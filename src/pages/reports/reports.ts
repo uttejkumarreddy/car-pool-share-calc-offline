@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { DatabaseProvider } from '../../providers/database/database';
 
 /**
@@ -22,7 +22,8 @@ export class ReportsPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private db: DatabaseProvider) {
+    private db: DatabaseProvider,
+    private alertCtrl: AlertController) {
   }
 
   ngOnInit() {
@@ -37,6 +38,20 @@ export class ReportsPage {
   refreshLogs() {
     this.successes = this.db.getSuccesses();
     this.errors = this.db.getErrors();
+  }
+
+  showError(error) {
+    this.alertCtrl.create({
+      title: 'Error',
+      message: error
+    }).present();
+  }
+
+  showSuccess(success) {
+    this.alertCtrl.create({
+      title: 'Success',
+      message: success
+    }).present();
   }
 
 }

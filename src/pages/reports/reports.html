@@ -23,13 +23,13 @@
   </div>
   <h6>Errors</h6>
   <ion-list>
-    <ion-item *ngFor="let error of errors">
+    <ion-item *ngFor="let error of errors" (click)="showError(error)">
       {{ error }}
     </ion-item>
   </ion-list>
   <h6>Successes</h6>
   <ion-list>
-    <ion-item *ngFor="let success of successes">
+    <ion-item *ngFor="let success of successes" (click)="showSuccess(success)">
       {{ success }}
     </ion-item>
   </ion-list>
