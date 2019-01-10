@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { DatabaseProvider } from '../../providers/database/database';
 
 /**
  * Generated class for the ReportsPage page.
@@ -15,11 +16,27 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ReportsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  successes: string[];
+  errors: string[];
+
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private db: DatabaseProvider) {
+  }
+
+  ngOnInit() {
+    this.successes = this.db.getSuccesses();
+    this.errors = this.db.getErrors();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReportsPage');
+  }
+
+  refreshLogs() {
+    this.successes = this.db.getSuccesses();
+    this.errors = this.db.getErrors();
   }
 
 }

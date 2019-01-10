@@ -11,8 +11,8 @@ import { ToastController } from 'ionic-angular';
 @Injectable()
 export class DatabaseProvider {
 
-  successes: string[];
-  errors: string[];
+  successes: string[] = [];
+  errors: string[] = [];
 
   constructor(private sqlite: SQLite, private toastCtrl: ToastController) {
     
@@ -124,11 +124,11 @@ export class DatabaseProvider {
 
   /* Admin operations */
   getErrors() {
-
+    return this.errors;
   }
 
   getSuccesses() {
-
+    return this.successes;
   }
 
 }
