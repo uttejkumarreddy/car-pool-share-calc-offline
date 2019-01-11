@@ -35,6 +35,27 @@
     </ion-list>
   </div>
 
+  <div>
+    <h3 style="display: inline">Participants</h3>
+    <button ion-button clear style="float: right; margin-top: 0;" icon-only (click)="refreshParticipants()">
+      <ion-icon name="refresh"></ion-icon>
+    </button>
+    <button ion-button clear style="float: right; margin-top: 0;" icon-only (click)="addParticipant()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </div>
+  <div *ngIf="participants.length == 0">
+    <h6 text-center style="float: center; margin-top: 5px">No participants added!</h6>
+  </div>
+  <div *ngIf="participants.length > 0">
+    <ion-list>
+      <ion-item *ngFor="let participant of participants" (click)="editParticipant(participant)">
+        {{participant.participantid}}: {{participant.name}}
+      </ion-item>
+    </ion-list>
+  </div>
+
+
   
 
 </ion-content>
