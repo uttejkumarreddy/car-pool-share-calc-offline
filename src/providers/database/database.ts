@@ -18,6 +18,7 @@ export class DatabaseProvider {
   errors: string[] = [];
 
   public transport: transport[] = [];
+  public transportById: transport = {'transportid': null, 'transportname': null, 'costperkm': null};
   public participants: participant[] = [];
   public tripStatus: number = 0;
 
@@ -144,6 +145,23 @@ export class DatabaseProvider {
             this.transport = [];
             for(let i = 0; i < data.rows.length; i++)
               this.transport.push(data.rows.item(i));
+          })
+          .catch(err => this.errors.push('getTransport ' + JSON.stringify(err)))
+      })
+      .catch(err => this.errors.push('getTransport: ' + JSON.stringify(err)))
+  }
+
+  async getTransportById(id: number) {
+    this.sqlite.create({
+      name: 'carpool.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+        db.executeSql('SELECT * from transport where transportid = ? LIMIT 1', [id])
+          .then((data) => {
+            if(data.rows.length > 0) {
+
+            }
           })
           .catch(err => this.errors.push('getTransport ' + JSON.stringify(err)))
       })
